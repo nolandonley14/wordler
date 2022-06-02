@@ -24,7 +24,7 @@ function Letter({ letterPos, attemptVal }) {
   }, [currAttempt.attempt]);
 
   return (
-    <div className="letter" id={letState}>
+    <div className="letter" id={letState.toString()}>
       {letter}
     </div>
   );

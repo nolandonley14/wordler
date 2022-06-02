@@ -2,9 +2,8 @@ import './App.css';
 import Board from "./components/Board";
 import Keyboard from './components/Keyboard';
 import GameOver from './components/GameOver';
-import { GuessContainer } from './components/GuessContainer';
 import { useState, useEffect, createContext } from 'react';
-import { boardDefault, generateWordSet } from './data/words.js';
+import { boardDefault, generateWordSet, getDailyWord, getRandomWord } from './data/words.js';
 
 export const AppContext = createContext();
 
@@ -18,17 +17,59 @@ function App() {
   const [lettersState, setLettersState] = useState([]);
   const [correctLetters, setCorrectLetters] = useState([]);
   const [almostLetters, setAlmostLetters] = useState([]);
+  const [gameType, setGameType] = useState("daily");
   const [gameOver, setGameOver] = useState({
     gameOver: false,
     guessedWord: false,
   });
 
   useEffect(() => {
+    const gameState = window.localStorage.getItem('WordlerGameState');
+    if (gameState !== null) {
+      const data = JSON.parse(gameState);
+      setNumGuesses(data.numGuesses);
+      setBoard(data.board);
+      setCorrectWord(data.correctWord);
+      setDisabledLetters(data.disabledLetters);
+      setLettersState(data.lettersState);
+      setCorrectLetters(data.correctLetters);
+      setAlmostLetters(data.almostLetters);
+      setGameType(data.gameType);
+      setGameOver(data.gameOver);
+    }
+  }, [])
+
+  useEffect(() => {
+    const obj = {
+      numGuesses,
+      board,
+      currAttempt,
+      correctWord,
+      disabledLetters,
+      lettersState,
+      correctLetters,
+      almostLetters,
+      gameType,
+      gameOver
+    }
+    window.localStorage.setItem('WordlerGameState', JSON.stringify(obj));
+  }, [numGuesses,board,currAttempt,wordList,correctWord,disabledLetters,lettersState,correctLetters,almostLetters,gameType,gameOver])
+
+  useEffect(() => {
     generateWordSet().then((words) => {
-      setWordList(words.wordSet);
-      setCorrectWord(words.todaysWord);
+      setWordList(words);
     });
-  }, []);
+    if (gameType == "daily") {
+      getDailyWord().then((word) => {
+        setCorrectWord(word);
+      })
+    } else if (gameType == "practice") {
+      getRandomWord().then((word) => {
+        setCorrectWord(word);
+      })
+    }
+
+  }, [gameType]);
 
   const updateLetterState = () => {
     const lettersMap = {};
@@ -110,8 +151,20 @@ function App() {
 
     return (
       <div className="App">
-        <nav>
+        <nav className="nav">
+          <button
+            className={gameType == "daily" ? "active" : ""}
+            onClick={() => setGameType("daily")}
+          >
+          Daily
+          </button>
           <h1>Wordler</h1>
+          <button
+            className={gameType == "practice" ? "active" : ""}
+            onClick={() => setGameType("practice")}
+          >
+          Practice
+          </button>
         </nav>
           <AppContext.Provider
             value={{

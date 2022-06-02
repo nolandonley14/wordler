@@ -15,7 +15,7 @@ function GameOver() {
     <div className="gameOver">
       <h3>
         {gameOver.guessedWord
-          ? "You Correctly Guessed the Wordle"
+          ? "You Correctly Guessed the Wordler"
           : "You Failed to Guess the Word"}
       </h3>
       <h1>Correct Word: {correctWord.toUpperCase()}</h1>
