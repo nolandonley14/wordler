@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { AppContext } from "../App";
+import { AppContext } from "../../Context/appContext";
+import './keyboard.css';
 
 function Key({ keyVal, bigKey, disabled, correct, almost }) {
   const { gameOver, onSelectLetter, onDelete, onEnter } =

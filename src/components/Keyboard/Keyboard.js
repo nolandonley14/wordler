@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useContext } from "react";
 import Key from "./Key";
-import { AppContext } from "../App";
+import { AppContext } from "../../Context/appContext";
+import './keyboard.css';
 
 function Keyboard() {
   const keys1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
@@ -8,12 +9,12 @@ function Keyboard() {
   const keys3 = ["Z", "X", "C", "V", "B", "N", "M"];
 
   const {
-    board,
     disabledLetters,
     correctLetters,
     almostLetters,
     currAttempt,
     gameOver,
+    gameType,
     onSelectLetter,
     onEnter,
     onDelete,
@@ -54,45 +55,49 @@ function Keyboard() {
     };
   }, [handleKeyboard]);
 
-  return (
-    <div className="keyboard" onKeyDown={handleKeyboard}>
-      <div className="line1">
-        {keys1.map((key, index) => {
-          return <Key
-            key={key}
-            keyVal={key}
-            disabled={disabledLetters.includes(key)}
-            correct={correctLetters.includes(key)}
-            almost={almostLetters.includes(key)}
-          />;
-        })}
+  if (gameOver.gameOver) {
+    return null;
+  } else {
+    return (
+      <div className="keyboard" onKeyDown={handleKeyboard}>
+        <div className="line1">
+          {keys1.map((key, index) => {
+            return <Key
+              key={key}
+              keyVal={key}
+              disabled={disabledLetters.includes(key)}
+              correct={correctLetters.includes(key)}
+              almost={almostLetters.includes(key)}
+            />;
+          })}
+        </div>
+        <div className="line2">
+          {keys2.map((key, index) => {
+            return <Key
+              key={key}
+              keyVal={key}
+              disabled={disabledLetters.includes(key)}
+              correct={correctLetters.includes(key)}
+              almost={almostLetters.includes(key)}
+            />;
+          })}
+        </div>
+        <div className="line3">
+          <Key keyVal={"↵"} bigKey />
+          {keys3.map((key) => {
+            return <Key
+              key={key}
+              keyVal={key}
+              disabled={disabledLetters.includes(key)}
+              correct={correctLetters.includes(key)}
+              almost={almostLetters.includes(key)}
+            />;
+          })}
+          <Key keyVal={"⌫"} bigKey />
+        </div>
       </div>
-      <div className="line2">
-        {keys2.map((key, index) => {
-          return <Key
-            key={key}
-            keyVal={key}
-            disabled={disabledLetters.includes(key)}
-            correct={correctLetters.includes(key)}
-            almost={almostLetters.includes(key)}
-          />;
-        })}
-      </div>
-      <div className="line3">
-        <Key keyVal={"ENTER"} bigKey />
-        {keys3.map((key) => {
-          return <Key
-            key={key}
-            keyVal={key}
-            disabled={disabledLetters.includes(key)}
-            correct={correctLetters.includes(key)}
-            almost={almostLetters.includes(key)}
-          />;
-        })}
-        <Key keyVal={"DELETE"} bigKey />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Keyboard;

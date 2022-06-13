@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { AppContext } from "../App";
+import { AppContext } from "../../Context/appContext";
 import Letter from "./Letter";
+import './board.css';
 
 function Board() {
   return (
