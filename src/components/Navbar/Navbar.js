@@ -9,8 +9,6 @@ const Navbar = ({mode, modeHandler}) => {
   const [isOpen, setOpen] = useState(false);
 
   const {
-    gameType,
-    setGameType,
     theme,
     setTheme,
     hardMode,
@@ -70,14 +68,6 @@ const Navbar = ({mode, modeHandler}) => {
 
   return (
     <nav className="nav">
-      <ToggleButton
-        text1={"Daily"}
-        text2={"Practice"}
-        class1={mode === "daily" ? "left active" : "left"}
-        class2={mode === "practice" ? "right active" : "right"}
-        onClick1={() => modeHandler("daily")}
-        onClick2={() => modeHandler("practice")}
-      />
       <img src={"viLogoWhite.png"} className="titleLogo" alt={"logo"}></img>
       <h1>ordle</h1>
       <Hamburger direction="right" toggled={isOpen} toggle={setOpen}/>

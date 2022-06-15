@@ -14,7 +14,6 @@ function Keyboard() {
     almostLetters,
     currAttempt,
     gameOver,
-    gameType,
     onSelectLetter,
     onEnter,
     onDelete,

@@ -13,7 +13,9 @@ export const boardDefault = [
 export const getDailyWord = async () => {
   let dailyWord;
 
-  const offsetDate = new Date(2022, 0, 1);
+  const date = new Date();
+  const offset = date.getTimezoneOffset();
+  const offsetDate = new Date(2022, 0, 1, 0, 0-offset, 0, 0);
   const msOffset = Date.now() - offsetDate;
   const dayOffset = msOffset / 1000 / 60 / 60 / 24;
 

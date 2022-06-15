@@ -4,7 +4,6 @@ import './board.css';
 
 function Letter({ letterPos, attemptVal }) {
   const {
-    gameType,
     dailyBoard,
     lettersState,
     currAttempt,
