@@ -9,7 +9,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { Menu, Nav, NavHeader, MenuRow, TitleLogo } from './styledComps';
 import {useTheme} from 'styled-components';
 
-const Navbar = ({curTheme, changeTheme}) => {
+const Navbar = ({curTheme, changeTheme, curContrast, changeContrast}) => {
 
   const [isOpen, setOpen] = useState(false);
 
@@ -18,8 +18,6 @@ const Navbar = ({curTheme, changeTheme}) => {
   const {
     hardMode,
     setHardMode,
-    highContrast,
-    setHighContrast,
     setShowStats,
   } = useContext(AppContext);
 
@@ -52,9 +50,9 @@ const Navbar = ({curTheme, changeTheme}) => {
             <ToggleButton
               text1={"On"}
               text2={"Off"}
-              active={highContrast === true ? "left" : "left"}
-              onClick1={() => setHighContrast(true)}
-              onClick2={() => setHighContrast(false)}
+              active={curContrast === true ? "left" : "right"}
+              onClick1={() => changeContrast(true)}
+              onClick2={() => changeContrast(false)}
             />
           </MenuRow>
           <MenuRow>

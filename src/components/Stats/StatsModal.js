@@ -77,7 +77,7 @@ const StatsModal = () => {
               <StatItemName>Played</StatItemName>
             </StatsItems>
             <StatsItems>
-              <StatItemValue>{((stats.wins / stats.played)*100).toFixed(0)}</StatItemValue>
+              <StatItemValue>{stats.played ? ((stats.wins / stats.played)*100).toFixed(0) : "0"}</StatItemValue>
               <StatItemName>Win %</StatItemName>
             </StatsItems>
             <StatsItems>

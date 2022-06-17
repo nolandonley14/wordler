@@ -20,7 +20,6 @@ export const DataProvider = props => {
   const [numGuesses, setNumGuesses] = useState(6);
   const [wordList, setWordList] = useState(new Set());
   const [hardMode, setHardMode] = useLocalStorage("hardMode", false);
-  const [highContrast, setHighContrast] = useLocalStorage("highContrast", false);
   const [showStats, setShowStats] = useLocalStorage(false);
   const [stats, setStats] = useLocalStorage("stats", {played: 0, wins: 0, winPer: 0, curStreak: 0, maxStreak: 0,
     guesses: [0, 0, 0, 0, 0, 0], lastGuess: 2});
@@ -158,8 +157,6 @@ export const DataProvider = props => {
       setWordList,
       hardMode,
       setHardMode,
-      highContrast,
-      setHighContrast,
       dailyBoard,
       setDailyBoard,
       currAttempt,
