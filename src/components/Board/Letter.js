@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { AppContext } from "../../Context/appContext";
 import './board.css';
+import {LetterComp, DisabledLetter, CorrectLetter, AlmostLetter} from './styledComps';
 
 function Letter({ letterPos, attemptVal }) {
   const {
@@ -32,11 +33,15 @@ function Letter({ letterPos, attemptVal }) {
     }
   }, [currAttempt.attempt]);
 
-  return (
-    <div className="letter" id={letState.toString()}>
-      {letter}
-    </div>
-  );
+  if (letState.toString() == "disabled") {
+    return <DisabledLetter>{letter}</DisabledLetter>;
+  } else if (letState.toString() == "correct") {
+    return <CorrectLetter>{letter}</CorrectLetter>;
+  } else if (letState.toString() == "almost") {
+    return <AlmostLetter>{letter}</AlmostLetter>;
+  } else {
+    return <LetterComp>{letter}</LetterComp>;
+  }
 }
 
 export default Letter;

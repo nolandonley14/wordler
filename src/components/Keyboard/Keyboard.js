@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useContext } from "react";
 import Key from "./Key";
 import { AppContext } from "../../Context/appContext";
-import './keyboard.css';
+import {KeyboardComp, Line} from './styledComps';
 
 function Keyboard() {
   const keys1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
@@ -54,49 +54,45 @@ function Keyboard() {
     };
   }, [handleKeyboard]);
 
-  if (gameOver.gameOver) {
-    return null;
-  } else {
-    return (
-      <div className="keyboard" onKeyDown={handleKeyboard}>
-        <div className="line1">
-          {keys1.map((key, index) => {
-            return <Key
-              key={key}
-              keyVal={key}
-              disabled={disabledLetters.includes(key)}
-              correct={correctLetters.includes(key)}
-              almost={almostLetters.includes(key)}
-            />;
-          })}
-        </div>
-        <div className="line2">
-          {keys2.map((key, index) => {
-            return <Key
-              key={key}
-              keyVal={key}
-              disabled={disabledLetters.includes(key)}
-              correct={correctLetters.includes(key)}
-              almost={almostLetters.includes(key)}
-            />;
-          })}
-        </div>
-        <div className="line3">
-          <Key keyVal={"↵"} bigKey />
-          {keys3.map((key) => {
-            return <Key
-              key={key}
-              keyVal={key}
-              disabled={disabledLetters.includes(key)}
-              correct={correctLetters.includes(key)}
-              almost={almostLetters.includes(key)}
-            />;
-          })}
-          <Key keyVal={"⌫"} bigKey />
-        </div>
-      </div>
-    );
-  }
+  return (
+    <KeyboardComp onKeyDown={handleKeyboard}>
+      <Line>
+        {keys1.map((key, index) => {
+          return <Key
+            key={key}
+            keyVal={key}
+            disabled={disabledLetters.includes(key)}
+            correct={correctLetters.includes(key)}
+            almost={almostLetters.includes(key)}
+          />;
+        })}
+      </Line>
+      <Line>
+        {keys2.map((key, index) => {
+          return <Key
+            key={key}
+            keyVal={key}
+            disabled={disabledLetters.includes(key)}
+            correct={correctLetters.includes(key)}
+            almost={almostLetters.includes(key)}
+          />;
+        })}
+      </Line>
+      <Line>
+        <Key keyVal={"↵"} bigKey />
+        {keys3.map((key) => {
+          return <Key
+            key={key}
+            keyVal={key}
+            disabled={disabledLetters.includes(key)}
+            correct={correctLetters.includes(key)}
+            almost={almostLetters.includes(key)}
+          />;
+        })}
+        <Key keyVal={"⌫"} bigKey />
+      </Line>
+    </KeyboardComp>
+  );
 }
 
 export default Keyboard;

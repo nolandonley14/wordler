@@ -1,23 +1,28 @@
 import React, { useContext } from "react";
-import './navbar.css';
+import { TypeButtons, NavButtonLeft, NavButtonRight } from './styledComps';
+import styled, {useTheme} from 'styled-components';
 
-function ToggleButton({text1, text2, class1, class2, onClick1, onClick2}) {
+function ToggleButton({text1, text2, active, onClick1, onClick2}) {
+
+  const theme = useTheme();
 
   return (
-    <div className="typeButtons">
-      <button
-        className={class1}
+    <TypeButtons>
+      <NavButtonLeft
         onClick={onClick1}
+        style={active == "left" ? {"background-color": `${theme.colorText}`,
+        "color": `${theme.colorBackground}`} : {}}
       >
       {text1}
-      </button>
-      <button
-        className={class2}
+      </NavButtonLeft>
+      <NavButtonRight
         onClick={onClick2}
+        style={active == "right" ? {"background-color": `${theme.colorText}`,
+        "color": `${theme.colorBackground}`} : {}}
       >
       {text2}
-      </button>
-    </div>
+      </NavButtonRight>
+    </TypeButtons>
   );
 }
 

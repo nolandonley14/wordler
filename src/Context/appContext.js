@@ -19,11 +19,11 @@ export const DataProvider = props => {
 
   const [numGuesses, setNumGuesses] = useState(6);
   const [wordList, setWordList] = useState(new Set());
-  const [theme, setTheme] = useLocalStorage("theme", "dark");
   const [hardMode, setHardMode] = useLocalStorage("hardMode", false);
   const [highContrast, setHighContrast] = useLocalStorage("highContrast", false);
-  const [stats, setStats] = useLocalStorage("stats", {played: 0, winPer: 0, curStreak: 0, maxStreak: 0,
-    guesses: [0, 2, 0, 1, 0, 0], lastGuess: 4});
+  const [showStats, setShowStats] = useLocalStorage(false);
+  const [stats, setStats] = useLocalStorage("stats", {played: 0, wins: 0, winPer: 0, curStreak: 0, maxStreak: 0,
+    guesses: [0, 0, 0, 0, 0, 0], lastGuess: 2});
 
   const [dailyBoard, setDailyBoard] = useLocalStorage("dailyBoard", boardDefault);
   const [currAttempt, setCurrAttempt] = useLocalStorage("currAttempt", {attempt: 0, letter: 0});
@@ -105,11 +105,28 @@ export const DataProvider = props => {
         return;
       }
       if (currWord.toLowerCase() === correctWord) {
+        var newStats = stats;
+        newStats.played += 1;
+        newStats.wins += 1;
+        newStats.curStreak += 1;
+        if (newStats.curStreak > newStats.maxStreak) {
+          newStats.maxStreak += 1;
+        }
+        newStats.guesses[currAttempt.attempt] += 1;
+        newStats.lastGuess = currAttempt.attempt+1;
+        setStats(newStats);
         setGameOver({ gameOver: true, guessedWord: true });
+        setShowStats(true);
         return;
       }
       if (currAttempt.attempt === 5) {
+        var newStats = stats;
+        newStats.played += 1;
+        newStats.curStreak = 0;
+        newStats.lastGuess = null;
+        setStats(newStats);
         setGameOver({ gameOver: true, guessedWord: false });
+        setShowStats(true);
         return;
       }
     };
@@ -139,8 +156,6 @@ export const DataProvider = props => {
       setNumGuesses,
       wordList,
       setWordList,
-      theme,
-      setTheme,
       hardMode,
       setHardMode,
       highContrast,
@@ -163,6 +178,8 @@ export const DataProvider = props => {
       gameOver,
       stats,
       setStats,
+      showStats,
+      setShowStats
     }}>
       {props.children}
     </AppContext.Provider>

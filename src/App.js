@@ -6,6 +6,9 @@ import Navbar from './components/Navbar/Navbar';
 import StatsModal from './components/Stats/StatsModal';
 import { DataProvider } from './Context/appContext';
 import { useState, useEffect } from 'react';
+import styled, { ThemeProvider } from 'styled-components';
+import { dark, light } from './theme/themes.js';
+import { AppDiv, Game } from './styledComps';
 
 const useLocalStorage = (storageKey, fallbackState) => {
   const [value, setValue] = useState(
@@ -20,21 +23,23 @@ const useLocalStorage = (storageKey, fallbackState) => {
 };
 
 function App() {
-  localStorage.clear();
-  const [gameMode, setGameMode] = useLocalStorage("gameMode", "daily");
+    localStorage.clear();
+    const [gameMode, setGameMode] = useLocalStorage("gameMode", "daily");
+    const [theme, setTheme] = useLocalStorage("theme", "dark");
 
     return (
-      <div className="App">
+      <ThemeProvider theme={theme == "dark" ? dark : light}>
+        <AppDiv>
           <DataProvider>
             <StatsModal />
-            <Navbar />
-              <div className="game">
+            <Navbar curTheme={theme} changeTheme={setTheme}/>
+              <Game>
                 <Board />
-                <GameOver />
                 <Keyboard />
-              </div>
+              </Game>
           </DataProvider>
-      </div>
+        </AppDiv>
+      </ThemeProvider>
     );
   }
 
