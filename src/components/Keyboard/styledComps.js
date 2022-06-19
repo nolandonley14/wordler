@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const KeyboardComp = styled.div`
-  max-width: 700px;
+  max-width: 400px;
   width: 80vw;
   height: 200px;
   margin-top: 60px;
