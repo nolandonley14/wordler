@@ -17,10 +17,13 @@ const useLocalStorage = (storageKey, fallbackState) => {
 
 export const DataProvider = props => {
 
+  const [notWordModal, setNotWordModal] = useState(false);
+  const [hardModeError, setHardModeError] = useState({val: false, reason: null});
+
   const [numGuesses, setNumGuesses] = useState(6);
   const [wordList, setWordList] = useState(new Set());
   const [hardMode, setHardMode] = useLocalStorage("hardMode", false);
-  const [showStats, setShowStats] = useLocalStorage(false);
+  const [showStats, setShowStats] = useLocalStorage("showStats", false);
   const [stats, setStats] = useLocalStorage("stats", {played: 0, wins: 0, winPer: 0, curStreak: 0, maxStreak: 0,
     guesses: [0, 0, 0, 0, 0, 0], lastGuess: 2});
 
@@ -90,6 +93,36 @@ export const DataProvider = props => {
     setLettersState((prev) => [...prev, newLettersState])
   }
 
+  const checkWord = () => {
+    if (!hardMode) {
+      return "";
+    }
+    var retVal = "";
+    var currWord = "";
+    for (let i = 0; i < 6; i++) {
+      currWord += dailyBoard[currAttempt.attempt][i];
+    }
+    // disabledLetters.forEach((dL) => {
+    //   if (currWord.includes(dL)) {
+    //     retVal = false;
+    //     return;
+    //   }
+    // })
+    almostLetters.forEach((aL) => {
+      if (!currWord.includes(aL)) {
+        retVal = aL;
+        return;
+      }
+    })
+    correctLetters.forEach((cL) => {
+      if (correctWord.indexOf(cL) != currWord.indexOf(cL)) {
+        retVal = cL;
+        return;
+      }
+    })
+    return retVal;
+  }
+
   const onEnter = () => {
       let currWord = "";
       if (currAttempt.letter !== 6) return;
@@ -97,10 +130,22 @@ export const DataProvider = props => {
         currWord += dailyBoard[currAttempt.attempt][i];
       }
       if (wordList.has(currWord.toLowerCase())) {
-        setCurrAttempt({ attempt: currAttempt.attempt + 1, letter: 0 });
-        updateLetterState();
+        var letter = checkWord();
+        if (letter != "") {
+          setHardModeError({val: true, reason: letter});
+          setTimeout(() => {
+            setHardModeError({val: false, reason: null});
+          }, 2000);
+          return;
+        } else {
+          setCurrAttempt({ attempt: currAttempt.attempt + 1, letter: 0 });
+          updateLetterState();
+        }
       } else {
-        alert("Word not found");
+        setNotWordModal(true);
+        setTimeout(() => {
+          setNotWordModal(false);
+        }, 2000);
         return;
       }
       if (currWord.toLowerCase() === correctWord) {
@@ -151,6 +196,8 @@ export const DataProvider = props => {
 
   return (
     <AppContext.Provider value={{
+      notWordModal,
+      hardModeError,
       numGuesses,
       setNumGuesses,
       wordList,

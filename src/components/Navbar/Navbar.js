@@ -6,7 +6,7 @@ import { FaChartPie } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoCloseSharp } from 'react-icons/io5';
-import { Menu, Nav, NavHeader, MenuRow, TitleLogo } from './styledComps';
+import { Menu, Nav, NavHeader, MenuRow, TitleLogo, DonateLink } from './styledComps';
 import {useTheme} from 'styled-components';
 
 const Navbar = ({curTheme, changeTheme, curContrast, changeContrast}) => {
@@ -56,7 +56,9 @@ const Navbar = ({curTheme, changeTheme, curContrast, changeContrast}) => {
             />
           </MenuRow>
           <MenuRow>
-            <h3>Donate</h3>
+            <h3>
+            <DonateLink href={"https://buymeacoffee.com/nolandonley"} target={"_blank"}>Donate</DonateLink>
+            </h3>
           </MenuRow>
         </Menu>
       );

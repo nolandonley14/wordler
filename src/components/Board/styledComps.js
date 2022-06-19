@@ -70,3 +70,21 @@ export const DisabledLetter = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   background-color: ${(p) => p.theme.colorWrong};
 `;
+
+export const NotWordModal = styled.div`
+  background-color: ${(p) => p.theme.colorText};
+  color: ${(p) => p.theme.colorBackground};
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top:20px;
+`;
+
+export const HardModeErrorModal = styled.div`
+  background-color: ${(p) => p.theme.colorText};
+  color: ${(p) => p.theme.colorBackground};
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top:20px;
+`;

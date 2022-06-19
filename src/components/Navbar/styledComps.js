@@ -16,6 +16,11 @@ export const Menu = styled.div`
   align-items: center;
 `;
 
+export const DonateLink = styled.a`
+  color: white;
+  text-decoration: none;
+`;
+
 export const Nav = styled.nav`
   height: 60px;
   width: 100%;

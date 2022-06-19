@@ -2,11 +2,26 @@ import React, { useContext } from "react";
 import { AppContext } from "../../Context/appContext";
 import Letter from "./Letter";
 import './board.css';
-import { BoardComp, Row } from './styledComps';
+import { BoardComp, Row, NotWordModal, HardModeErrorModal } from './styledComps';
 
 function Board() {
+  const {
+    notWordModal,
+    hardModeError
+  } = useContext(AppContext);
   return (
-    <BoardComp>
+    <>
+    {notWordModal && (
+      <NotWordModal>
+        Word not in list
+      </NotWordModal>
+    )}
+    {hardModeError.val && (
+      <HardModeErrorModal>
+        Invalid Guess for Hard Mode: {hardModeError.reason}
+      </HardModeErrorModal>
+    )}
+    <BoardComp style={{"paddingTop": notWordModal || hardModeError.val ? "20px" : "50px"}}>
       {" "}
       <Row>
         <Letter letterPos={0} attemptVal={0} />
@@ -57,6 +72,7 @@ function Board() {
         <Letter letterPos={5} attemptVal={5} />
       </Row>
     </BoardComp>
+    </>
   );
 }
 

@@ -13,6 +13,5 @@ export const Game = styled.div`
   height: calc(100vh - 170px);
   display: flex;
   align-items: center;
-  padding-top: 50px;
   flex-direction: column;
 `;
