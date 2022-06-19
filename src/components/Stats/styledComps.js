@@ -10,6 +10,17 @@ export const BG = styled.div`
   align-items: center;
 `;
 
+export const ShareBtn = styled.button`
+  padding: 10px;
+  background-color: ${(p) => p.theme.colorCorrect};
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 30%;
+`;
+
 export const Stats = styled.div`
   width: 28rem;
   height: 36em;

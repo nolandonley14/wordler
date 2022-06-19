@@ -3,6 +3,8 @@ import { AppContext } from "../../Context/appContext";
 import './stats.css';
 import { PieChart } from 'react-minimal-pie-chart';
 import ReactTooltip from 'react-tooltip';
+import CountdownTimer from './CountdownTimer';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {
 BG,
 StatsTitle,
@@ -16,26 +18,51 @@ GuessView,
 GuessRow,
 GuessTop,
 GuessBottom,
-Chart
+Chart,
+ShareBtn
 } from './styledComps';
 
-const StatsModal = () => {
+const StatsModal = ({theme}) => {
 
   const {
     stats,
     gameOver,
     showStats,
-    setShowStats
+    setShowStats,
+    dailyBoard,
+    correctWord,
   } = useContext(AppContext);
+
 
   const [isOpen, setOpen] = useState(gameOver);
   const [showChart, setShowChart] = useState(true);
   const [hovered, setHovered] = useState(0);
+  const [copied, setCopied] = useState(false);
 
   const labels = ['1', '2', '3', '4', '5', '6'];
 
-  const getToolTipContent = (data) => {
-    return `${data.val}`;
+  const getGameSummary = () => {
+    const startDate = new Date(2022, 5, 18);
+    const today = new Date();
+    const days = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+    var copiedBoard = "";
+    dailyBoard.forEach((row) => {
+      row.forEach((letter, index) => {
+        if (letter === "") {
+          return;
+        } else if (!correctWord.toUpperCase().includes(letter)) {
+          copiedBoard += theme === "dark" ? '⬛' : '⬜';
+        } else if (correctWord.toUpperCase().charAt(index) === letter) {
+          copiedBoard += '🟩';
+        } else {
+          copiedBoard += '🟨';
+        }
+        if (index === 5) {
+          copiedBoard += '\n';
+        }
+      })
+    })
+    return `Viordle ${days} ${stats.lastGuess !== null ? stats.lastGuess : '*'}/6\n\n${copiedBoard}`;
   }
 
   const statData = stats.guesses.map((val, i) => {
@@ -50,6 +77,7 @@ const StatsModal = () => {
       const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
           setShowStats(false);
+          setCopied(false);
         }
       }
       // Bind the event listener
@@ -94,37 +122,43 @@ const StatsModal = () => {
           </StatsTitle>
           <Visuals onClick={() => setShowChart(!showChart)}>
             {showChart ? (
-              <Chart data-tip="" data-for="chart">
-                <PieChart
-                  style={{
-                    fontFamily:
-                      '"Nunito Sans", -apple-system, Helvetica, Arial, sans-serif',
-                    fontSize: '10px',
-                  }}
-                  segmentsShift={1}
-                  segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
-                  data={statData}
-                  lineWidth={60}
-                  label={({ dataEntry, dataIndex }) => dataEntry.percentage > 0 ? labels[dataIndex] : ""}
-                  radius={PieChart.defaultProps.radius - 6}
-                  labelPosition={100 - 60 / 2}
-                  labelStyle={{
-                    fill: '#fff',
-                    opacity: 0.75,
-                    pointerEvents: 'none',
-                  }}
-                  onMouseOver={(_, index) => {
-                    setHovered(index);
-                  }}
-                  onMouseOut={() => {
-                    setHovered(null);
-                  }}
-                />
-                <ReactTooltip
-                  id="chart"
-                  getContent={() => hovered ? statData[hovered].value : null}
-                />
-            </Chart>
+              stats.lastGuess == null ? (
+                <div style={{marginBottom:50, marginTop:20}}>
+                {`None Correct :(`}
+                </div>
+              ) : (
+                <Chart data-tip="" data-for="chart">
+                  <PieChart
+                    style={{
+                      fontFamily:
+                        '"Nunito Sans", -apple-system, Helvetica, Arial, sans-serif',
+                      fontSize: '10px',
+                    }}
+                    segmentsShift={1}
+                    segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+                    data={statData}
+                    lineWidth={60}
+                    label={({ dataEntry, dataIndex }) => dataEntry.percentage > 0 ? labels[dataIndex] : ""}
+                    radius={PieChart.defaultProps.radius - 6}
+                    labelPosition={100 - 60 / 2}
+                    labelStyle={{
+                      fill: '#fff',
+                      opacity: 0.75,
+                      pointerEvents: 'none',
+                    }}
+                    onMouseOver={(_, index) => {
+                      setHovered(index);
+                    }}
+                    onMouseOut={() => {
+                      setHovered(null);
+                    }}
+                  />
+                  <ReactTooltip
+                    id="chart"
+                    getContent={() => hovered ? statData[hovered].value : null}
+                  />
+              </Chart>
+              )
             ) : (
               <GuessView>
                 <GuessRow>
@@ -155,6 +189,19 @@ const StatsModal = () => {
               </GuessView>
             )}
           </Visuals>
+          <div style={{display: "flex", justifyContent: "space-evenly", width: "100%"}}>
+            <div style={{display:"flex", flexDirection:"column", justifyContent:"center", width: "30%"}}>
+              <h3 style={{margin:0}}>Next Viordle</h3>
+              <CountdownTimer />
+            </div>
+            <CopyToClipboard text={getGameSummary()}
+              onCopy={() => setCopied(true)}>
+              <ShareBtn
+              style={copied ? {backgroundColor:"white", color:"#538d4e"} : {backgroundColor:"#538d4e", color:"white"}}>
+              {copied ? "Copied" : "Share"}
+              </ShareBtn>
+            </CopyToClipboard>
+          </div>
         </Stats>
       </BG>
     );

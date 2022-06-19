@@ -32,7 +32,7 @@ function App() {
       <ThemeProvider theme={theme == "dark" ? highContrast ? darkHC : darkRG : highContrast ? lightHC : lightRG}>
         <AppDiv>
           <DataProvider>
-            <StatsModal />
+            <StatsModal theme={theme}/>
             <Navbar
               curTheme={theme}
               changeTheme={setTheme}
