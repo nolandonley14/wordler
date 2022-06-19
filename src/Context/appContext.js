@@ -25,7 +25,7 @@ export const DataProvider = props => {
   const [hardMode, setHardMode] = useLocalStorage("hardMode", false);
   const [showStats, setShowStats] = useLocalStorage("showStats", false);
   const [stats, setStats] = useLocalStorage("stats", {played: 0, wins: 0, winPer: 0, curStreak: 0, maxStreak: 0,
-    guesses: [0, 0, 0, 0, 0, 0], lastGuess: 2});
+    guesses: [0, 0, 0, 0, 0, 0], lastGuess: null});
 
   const [dailyBoard, setDailyBoard] = useLocalStorage("dailyBoard", boardDefault);
   const [currAttempt, setCurrAttempt] = useLocalStorage("currAttempt", {attempt: 0, letter: 0});
@@ -50,6 +50,7 @@ export const DataProvider = props => {
 
   const resetState = () => {
     const statsPersist = stats;
+    console.log("reset");
     localStorage.clear()
     setStats(statsPersist);
     setDailyBoard(boardDefault);
@@ -159,7 +160,10 @@ export const DataProvider = props => {
         }
         newStats.guesses[currAttempt.attempt] += 1;
         newStats.lastGuess = currAttempt.attempt+1;
-        setStats(newStats);
+        setStats(prevState => ({
+            ...prevState,
+            newStats
+         }));
         setGameOver({ gameOver: true, guessedWord: true });
         setShowStats(true);
         return;
@@ -169,7 +173,10 @@ export const DataProvider = props => {
         newStats.played += 1;
         newStats.curStreak = 0;
         newStats.lastGuess = null;
-        setStats(newStats);
+        setStats(prevState => ({
+            ...prevState,
+            newStats
+         }));
         setGameOver({ gameOver: true, guessedWord: false });
         setShowStats(true);
         return;

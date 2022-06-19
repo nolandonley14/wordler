@@ -14,7 +14,7 @@ export const getDailyWord = async () => {
   let dailyWord;
 
   const date = new Date();
-  const offsetDate = new Date(2022, 0, 1, 0, 0, 0, 0);
+  const offsetDate = new Date(2022, 0, 3, 0, 0, 0, 0);
   const msOffset = date - offsetDate;
   const dayOffset = msOffset / 1000 / 60 / 60 / 24;
 
