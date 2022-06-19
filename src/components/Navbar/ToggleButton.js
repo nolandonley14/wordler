@@ -10,14 +10,14 @@ function ToggleButton({text1, text2, active, onClick1, onClick2}) {
     <TypeButtons>
       <NavButtonLeft
         onClick={onClick1}
-        style={active == "left" ? {"background-color": `${theme.colorCorrect}`,
+        style={active == "left" ? {"backgroundColor": `${theme.colorCorrect}`,
         "color": `${theme.colorText}`} : {}}
       >
       {text1}
       </NavButtonLeft>
       <NavButtonRight
         onClick={onClick2}
-        style={active == "right" ? {"background-color": `${theme.colorCorrect}`,
+        style={active == "right" ? {"backgroundColor": `${theme.colorCorrect}`,
         "color": `${theme.colorText}`} : {}}
       >
       {text2}

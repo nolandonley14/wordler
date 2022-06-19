@@ -115,7 +115,8 @@ export const DataProvider = props => {
       }
     })
     correctLetters.forEach((cL) => {
-      if (correctWord.indexOf(cL) != currWord.indexOf(cL)) {
+      //console.log(correctWord.toUpperCase().indexOf(cL), currWord.indexOf(cL), correctWord.indexOf(cL) !== currWord.indexOf(cL))
+      if (correctWord.toUpperCase().indexOf(cL) !== currWord.indexOf(cL)) {
         retVal = cL;
         return;
       }
