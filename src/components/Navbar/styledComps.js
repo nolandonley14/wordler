@@ -17,7 +17,7 @@ export const Menu = styled.div`
 `;
 
 export const DonateLink = styled.a`
-  color: white;
+  color: ${(p) => p.theme.colorText};
   text-decoration: none;
 `;
 
