@@ -79,7 +79,7 @@ function Keyboard() {
         })}
       </Line>
       <Line>
-        <Key keyVal={"↵"} bigKey />
+        <Key keyVal={"⌫"} bigKey />
         {keys3.map((key) => {
           return <Key
             key={key}
@@ -89,7 +89,7 @@ function Keyboard() {
             almost={almostLetters.includes(key)}
           />;
         })}
-        <Key keyVal={"⌫"} bigKey />
+        <Key keyVal={"↵"} bigKey />
       </Line>
     </KeyboardComp>
   );

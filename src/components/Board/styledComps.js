@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const BoardComp = styled.div`
-  width: 420px;
+  width: 390px;
   display: flex;
   flex-direction: column;
 `;
@@ -14,8 +14,8 @@ export const Row = styled.div`
 
 export const LetterComp = styled.div`
   flex: 33%;
-  width: 64px;
-  height: 64px;
+  width: 59px;
+  height: 59px;
   border: ${(p) => `1px solid ${p.theme.colorWrong}`};
   margin: 3px;
   display: grid;
@@ -28,8 +28,8 @@ export const LetterComp = styled.div`
 
 export const CorrectLetter = styled.div`
   flex: 33%;
-  width: 64px;
-  height: 64px;
+  width: 59px;
+  height: 59px;
   border: ${(p) => `1px solid ${p.theme.colorWrong}`};
   margin: 3px;
   display: grid;
@@ -43,8 +43,8 @@ export const CorrectLetter = styled.div`
 
 export const AlmostLetter = styled.div`
   flex: 33%;
-  width: 64px;
-  height: 64px;
+  width: 59px;
+  height: 59px;
   border: ${(p) => `1px solid ${p.theme.colorWrong}`};
   margin: 3px;
   display: grid;
@@ -58,8 +58,8 @@ export const AlmostLetter = styled.div`
 
 export const DisabledLetter = styled.div`
   flex: 33%;
-  width: 64px;
-  height: 64px;
+  width: 59px;
+  height: 59px;
   border: ${(p) => `1px solid ${p.theme.colorWrong}`};
   margin: 3px;
   display: grid;
